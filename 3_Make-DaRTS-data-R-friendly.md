@@ -1,15 +1,14 @@
 Make DaRTS data R friendly
 ================
 
-In this lesson, we are going to revisit the CTD data from yesterday, and
-think about setting ourselves up for success at the start of a project.
+In this lesson, we are going to consider DaRTS CTD data, and think about
+setting ourselves up for success at the start of a project.
 
-We will learn how to:
+We will learn:
 
 1.  Best practices for organizing data in a spreadsheet
-2.  Creating spreadsheets that are R-readable
-3.  Exporting data from spreadsheets into R
-4.  Wrangling data within R??
+2.  Create spreadsheets that are R-readable
+3.  Export data from spreadsheets into R
 
 ## Formatting Data
 
@@ -18,7 +17,7 @@ and open it in Excel, Numbers or another spreadsheet viewing software.
 This is the type of spreadsheet David will share with you after each
 cruise.
 
-- What are the strengths of this excel file?
+- What are the strengths of this Excel file?
 - What do you see as some weaknesses of it?
 - Could you load this sheet into R as-is?
 
@@ -39,19 +38,14 @@ General tips for creating an R-readable spreadsheet:
 Things to consider:
 
 - Split date columns by year, month and day to avoid confusion.
-
 - Keep data type consistent within each column (e.g. all numbers)
-
 - Include columns for all variables, even if they are split up by sheets
   (e.g. by station/year etc).
-
-- Keep columns consistent between sheets (to the best of your ability!).
-
+- Keep columns consistent between sheets (to the best of your
+  ability!).  
 - Avoid complicated headers (minimize keystrokes during analysis!).
-
 - Don’t carry out any cell operations within the spreadsheet… save that
-  for R!
-
+  for R!  
 - Same applies for plotting!
 
 Final tip: Make a plan about data collection at the *beginning* of a
@@ -80,7 +74,7 @@ project!
     This is your “README” tab, for when you come back to this file and
     want to remember where the data came from, and if any processing had
     been done to it.
-6.  Export data as a csv
+6.  Export data as a csv (details below)
 
 ### Saving as a CSV
 

@@ -1,0 +1,190 @@
+---
+title: "Visualizing DaRTS CTD data from a single cruise"
+output: 
+  html_notebook: default
+  html_document: default
+  github_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+In this less, we are going to explore CTD data from a single DaRTS cruise.
+
+We will learn how to:
+
+2.  Import a spreadsheet into R as a data frame.
+3.  Plot variables by depth in R using ggplot2.
+
+## Loading your data into R
+
+First we want to load the R libraries we'll be using today:
+
+```{r}
+library(tidyverse)
+```
+This loads all the functions we will need to load and plot our data.
+
+Let's try to read in the file we've just created. The function to do this is `read.csv`, and we need to provide the name of our data file, including the path to the file if it is in a different location than this markdown file.
+
+**Example 1:** not including the file path
+```{r}
+data <- read.csv("DaRTS_SingleCruise_CTDdata.csv", header = TRUE)
+```
+
+**Example 2:** including the path
+
+In the below `"../"` indicates move up one directory
+```{r}
+data <- read.csv("../DaRTS-data/DaRTS_SingleCruise_CTDdata.csv", header = TRUE)
+```
+
+
+
+You can see this object show up on the left-hand 'Environment' tab in R studio.  You can learn more about this object using a couple of different commands. For example, to learn about what the structure of the object is you can type use the function 'str'
+
+```{r}
+str(data)
+```
+Other functions you can use to learn about the data object are "colnames" and "nrow".  Feel free to give those a try to see what they do.
+
+# Visualizing Data: Part 1
+
+**Challenge 1:** Plot a temperature profile from Station 1.
+
+Let's think through the steps we're going to need to do before we start:
+
+1. Select only the data from Station 1
+2. Plot temperature on the x-axis, depth on the y-axis
+
+## Wrangling Data aka getting your data ready for plotting
+
+We need to pull out all rows of data that correspond to Station 1.  We will do this using a process called *filtering*. We will use the function `filter` from the package `dplyr` (part of the tinyverse). It looks like this:
+
+```{r}
+stn1 <- filter(data, station == 1)
+```
+
+**What did we just do?** The double equals sign is a *conditional*, it's telling R to go through the data frame and identify rows where the condition of equality is met for the specified variables (in this case, where the station column equaled 1).
+
+It can be good practice to check what you did worked - so let's check what this looks like (using code below, or could check the `stn1` variable in the Environment):
+```{r}
+head(stn1)
+```
+
+Now we are ready to plot our data.
+
+**But what about filtering out the temperature and depth data?? Don't we need to do that first?**  No!
+
+When plotting, we can tell R which columns of our data frame we'd like it to plot, and it will plot all the rows in the data frame for those columns. Our data frame contains rows for all four stations. So if we want to plot only one station, we need to filter out the station we want first. Then we tell R to plot the columns we want from that filtered data frame.
+
+
+## Plotting Data
+
+Time to plot! We're going to use a package called `ggplot2`... we will go into greater depth later about how exactly ggplot is working, for now, here's the code to plot a temperature profile:
+
+```{r}
+ggplot(stn1, aes(x = temp_C, y = depth_m)) + geom_point()
+```
+
+How does this look? Is there anything wrong with this plot?
+
+In oceanography, we like to orient ocean data from the surface on the top of the y axis and depth at the bottom of the y axis, so we need to flip our plot (aka reverse our y axis) - note, part of programming is learning the language to use:
+
+```{r}
+ggplot(stn1, aes(x = temp_C, y = depth_m)) + 
+  geom_point() + 
+  scale_y_reverse()
+```
+
+R has automatically named our axes using the data frame column names. This is super handy for quick plotting, but often we want to relabel them into something more informative:
+
+```{r}
+ggplot(stn1, aes(x = temp_C, y = depth_m)) + 
+  geom_point() + 
+  scale_y_reverse() + 
+  xlab('Temperature (C)') + 
+  ylab('Depth (m)') + 
+  ggtitle('Station 1 Temperature Profile')
+```
+
+## Saving figures
+
+If you want to save a figure, use `ggsave`:
+```{r}
+ggsave('st1_temp_profile.png', width = 4, height = 6)
+```
+
+Although the nice thing about using notebooks and markdown is that you don't need to save your figures out - they are rendered within your markdown or notebook file.
+
+## Visualizing Data: Part 2
+
+**Challenge 2:** Plot a temperature profile from all four stations.
+
+Let's think through the steps we're going to need to do before we start:
+
+In this case, we have a few options:
+* Do we want four individual plots, similar to what we just created?
+* Do we want all the data shown on one plot?
+
+It probably depends the story you're trying to tell, or what the data looks like, or some other factor.
+
+Let's do both!
+
+### Individual plots
+
+Here, we do NOT need to redo what we did above for station 1 four times. We can use a technique called `faceting`:
+
+```{r}
+ggplot(data, aes(x = temp_C, y = depth_m)) +
+  geom_point() + 
+  facet_wrap(~station, ncol = 4) +
+  scale_y_reverse()
+```
+Note that you can specify the axis limits:
+
+```{r}
+ggplot(data, aes(x = temp_C, y = depth_m)) +
+  geom_point() + 
+  facet_wrap(~station, ncol = 4) +
+  ylim(100, 0) + xlim(7.5, 18)
+```
+
+### Single plot
+
+Here, we add an additional argument to the call to `aes`:
+
+```{r}
+ggplot(data, aes(x = temp_C, y = depth_m, color = factor(data$station))) +
+  geom_point(size = 1) + 
+  scale_y_reverse() + 
+  labs(color = 'Station')
+```
+
+Note - let's breakdown that `factor(data$station)` command:
+
+* The first step in breaking down a command you don't know, is to work from the inside out. In this case, we need to consider the `data$station` part first. This is selecting the station column from our data frame called `data`.
+* Next, we move outwards to the `factor` command. So, `factor(data$station)` is doing something to our station column... it's turning those numbers into factors. What is a factor? Factors are categories i.e., they are discrete buckets, rather than continuous data. So, because our stations can only be 1, 2, 3 or 4, they are factors, rather than regular numbers, because if they were regular numbers, it would imply we could have a station 1.1, 2.5, etc. 
+* The conversion to factors is important for how R considers the data. If R thinks the data is a continuous number, it will color the dots differently - see example below.
+
+If you don't do the conversion to factors:
+```{r}
+ggplot(data, aes(x = temp_C, y = depth_m, color = data$station)) +
+  geom_point(size = 1) + 
+  scale_y_reverse() + 
+  labs(color = 'Station')
+```
+
+# NOTES
+
+comment on editing axes, selecting colors, etc. then update "David's assignment" with questions for the students to work on
+
+## David's Assignment Part 1   
+
+1) plot temperature, salinity, density, chlorophyll, O2 (% Saturation) and pH in R with the Depth (m) on the vertical axis in reverse order.
+   
+Be sure to label the Axes and put in the correct units (Shown in S1 in the excel sheet).
+
+
+
