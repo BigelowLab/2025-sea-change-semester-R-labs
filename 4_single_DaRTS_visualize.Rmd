@@ -1,9 +1,9 @@
 ---
 title: "Visualizing DaRTS CTD data from a single cruise"
 output: 
-  html_notebook: default
-  html_document: default
   github_document: default
+  html_document: default
+  html_notebook: default
 ---
 
 ```{r setup, include=FALSE}
@@ -63,7 +63,7 @@ Let's think through the steps we're going to need to do before we start:
 We need to pull out all rows of data that correspond to Station 1.  We will do this using a process called *filtering*. We will use the function `filter` from the package `dplyr` (part of the tinyverse). It looks like this:
 
 ```{r}
-stn1 <- filter(data, station == 1)
+stn1 <- dplyr::filter(data, station == 1)
 ```
 
 **What did we just do?** The double equals sign is a *conditional*, it's telling R to go through the data frame and identify rows where the condition of equality is met for the specified variables (in this case, where the station column equaled 1).
@@ -176,15 +176,16 @@ ggplot(data, aes(x = temp_C, y = depth_m, color = data$station)) +
   labs(color = 'Station')
 ```
 
-# NOTES
+# Practice Questions    
 
-comment on editing axes, selecting colors, etc. then update "David's assignment" with questions for the students to work on
-
-## David's Assignment Part 1   
-
-1) plot temperature, salinity, density, chlorophyll, O2 (% Saturation) and pH in R with the Depth (m) on the vertical axis in reverse order.
+1. Plot salinity, density and pH profiles for each station using faceting
+2. For each of the following variables, plot profiles for each station on one plot: PAR, fluorescence, turbidity and O2 percent saturation (i.e., one plot for PAR, with all four stations on the one plot, etc).
    
-Be sure to label the Axes and put in the correct units (Shown in S1 in the excel sheet).
+In both cases, be sure to label the axes appropriately (with the correct units). 
+
+Bonus questions (Google is your friend):
+a. Can you change the color, shape and/or size of the dots in the facet plot?
+b. Can you change the color, shape and/or size of the dots in the single plot?
 
 
 
