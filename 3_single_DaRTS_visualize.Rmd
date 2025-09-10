@@ -1,16 +1,16 @@
 ---
 title: "Visualizing DaRTS CTD data from a single cruise"
 output: 
-  github_document: default
-  html_document: default
   html_notebook: default
+  html_document: default
+  github_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-In this less, we are going to explore CTD data from a single DaRTS cruise.
+In this lesson, we are going to explore CTD data from a single DaRTS cruise.
 
 We will learn how to:
 
@@ -26,7 +26,7 @@ library(tidyverse)
 ```
 This loads all the functions we will need to load and plot our data.
 
-Let's try to read in the file we've just created. The function to do this is `read.csv`, and we need to provide the name of our data file, including the path to the file if it is in a different location than this markdown file.
+Let's try to read in the file we shared with you. The function to do this is `read.csv`, and we need to provide the name of our data file, including the path to the file if it is in a different location than this markdown file.
 
 **Example 1:** not including the file path
 ```{r}
@@ -156,21 +156,20 @@ ggplot(data, aes(x = temp_C, y = depth_m)) +
 Here, we add an additional argument to the call to `aes`:
 
 ```{r}
-ggplot(data, aes(x = temp_C, y = depth_m, color = factor(data$station))) +
+ggplot(data, aes(x = temp_C, y = depth_m, color = factor(station))) +
   geom_point(size = 1) + 
   scale_y_reverse() + 
   labs(color = 'Station')
 ```
 
-Note - let's breakdown that `factor(data$station)` command:
+Note - let's breakdown that `factor(station)` command:
 
-* The first step in breaking down a command you don't know, is to work from the inside out. In this case, we need to consider the `data$station` part first. This is selecting the station column from our data frame called `data`.
-* Next, we move outwards to the `factor` command. So, `factor(data$station)` is doing something to our station column... it's turning those numbers into factors. What is a factor? Factors are categories i.e., they are discrete buckets, rather than continuous data. So, because our stations can only be 1, 2, 3 or 4, they are factors, rather than regular numbers, because if they were regular numbers, it would imply we could have a station 1.1, 2.5, etc. 
+*`factor(station)` is doing something to our station column... it's turning those numbers into factors. What is a factor? Factors are categories i.e., they are discrete buckets, rather than continuous data. So, because our stations can only be 1, 2, 3 or 4, they are factors, rather than regular numbers, because if they were regular numbers, it would imply we could have a station 1.1, 2.5, etc. 
 * The conversion to factors is important for how R considers the data. If R thinks the data is a continuous number, it will color the dots differently - see example below.
 
 If you don't do the conversion to factors:
 ```{r}
-ggplot(data, aes(x = temp_C, y = depth_m, color = data$station)) +
+ggplot(data, aes(x = temp_C, y = depth_m, color = station)) +
   geom_point(size = 1) + 
   scale_y_reverse() + 
   labs(color = 'Station')
@@ -184,6 +183,7 @@ ggplot(data, aes(x = temp_C, y = depth_m, color = data$station)) +
 In both cases, be sure to label the axes appropriately (with the correct units). 
 
 Bonus questions (Google is your friend):
+
 a. Can you change the color, shape and/or size of the dots in the facet plot?
 b. Can you change the color, shape and/or size of the dots in the single plot?
 

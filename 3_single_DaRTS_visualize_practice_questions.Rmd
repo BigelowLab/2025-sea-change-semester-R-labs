@@ -1,0 +1,116 @@
+---
+title: "Visualizing DaRTS CTD data from a single cruise"
+output: 
+  html_notebook: default
+  html_document: default
+  github_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Workthrough of the practice questions
+
+## Loading your data into R
+
+First we want to load the R libraries we'll be using today:
+
+```{r}
+library(tidyverse)
+```
+
+```{r}
+data <- read.csv("../DaRTS-data/DaRTS_SingleCruise_CTDdata.csv", header = TRUE)
+```
+
+
+## 1. Plot salinity, density and pH profiles for each station using faceting
+
+### salinity
+```{r}
+ggplot(data, aes(x = sal_PSU, y = depth_m)) +
+  geom_point() + 
+  facet_wrap(~station, ncol = 4) +
+  scale_y_reverse()
+```
+
+### density
+```{r}
+ggplot(data, aes(x = density_kg_m.3, y = depth_m)) +
+  geom_point() + 
+  facet_wrap(~station, ncol = 4) +
+  scale_y_reverse()
+```
+### pH
+
+```{r}
+ggplot(data, aes(x = pH, y = depth_m)) +
+  geom_point() + 
+  facet_wrap(~station, ncol = 4) +
+  scale_y_reverse()
+```
+
+## 2. For each of the following variables, plot profiles for each station on one plot: PAR, fluorescence, turbidity and O2 percent saturation
+
+### PAR
+```{r}
+ggplot(data, aes(x = PAR, y = depth_m, color = factor(station))) +
+  geom_point(size = 1) + 
+  scale_y_reverse() + 
+  labs(color = 'Station')
+```
+
+### fluorescence
+```{r}
+ggplot(data, aes(x = fluor_mg_m.3, y = depth_m, color = factor(station))) +
+  geom_point(size = 1) + 
+  scale_y_reverse() + 
+  labs(color = 'Station')
+```
+
+### turbidity
+```{r}
+ggplot(data, aes(x = turbidity_NTU, y = depth_m, color = factor(station))) +
+  geom_point(size = 1) + 
+  scale_y_reverse() + 
+  labs(color = 'Station')
+```
+
+### o2 saturation
+```{r}
+ggplot(data, aes(x = O2sat_percent, y = depth_m, color = factor(station))) +
+  geom_point(size = 1) + 
+  scale_y_reverse() + 
+  labs(color = 'Station')
+```
+
+## Bonus questions (Google is your friend): Can you change the color, shape and/or size of the dots in the facet plot?
+
+For color options, type color() at the console.
+```{r}
+ggplot(data, aes(x = temp_C, y = depth_m)) +
+  geom_point(colour="thistle") + 
+  facet_wrap(~station, ncol = 4) +
+  ylim(100, 0) + xlim(7.5, 18)
+```
+
+link for shapes: https://ggplot2.tidyverse.org/reference/aes_linetype_size_shape.html?q=shape%20#null
+
+```{r}
+ggplot(data, aes(x = temp_C, y = depth_m)) +
+  geom_point(shape=6) + 
+  facet_wrap(~station, ncol = 4) +
+  ylim(100, 0) + xlim(7.5, 18)
+```
+
+```{r}
+ggplot(data, aes(x = temp_C, y = depth_m)) +
+  geom_point(shape=15, size=5, color="green") + 
+  facet_wrap(~station, ncol = 4) +
+  ylim(100, 0) + xlim(7.5, 18)
+```
+b. Can you change the color, shape and/or size of the dots in the single plot?
+
+
+
