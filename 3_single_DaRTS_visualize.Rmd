@@ -1,9 +1,9 @@
 ---
 title: "Visualizing DaRTS CTD data from a single cruise"
 output: 
-  html_notebook: default
-  html_document: default
   github_document: default
+  html_document: default
+  html_notebook: default
 ---
 
 ```{r setup, include=FALSE}
@@ -29,9 +29,8 @@ This loads all the functions we will need to load and plot our data.
 Let's try to read in the file we shared with you. The function to do this is `read.csv`, and we need to provide the name of our data file, including the path to the file if it is in a different location than this markdown file.
 
 **Example 1:** not including the file path
-```{r}
-data <- read.csv("DaRTS_SingleCruise_CTDdata.csv", header = TRUE)
-```
+
+`data <- read.csv("DaRTS_SingleCruise_CTDdata.csv", header = TRUE)`
 
 **Example 2:** including the path
 
