@@ -35,6 +35,7 @@ including the path to the file if it is in a different location than
 this markdown file.
 
 **Example 1:** not including the file path
+
 `data <- read.csv("DaRTS_TwoCruise_CTDdata.csv", header = TRUE)`
 
 **Example 2:** including the path
@@ -75,7 +76,7 @@ ggplot(data, aes(x = temp_C, y = depth_m, shape = factor(cruise), colour = facto
   ylab('Depth (m)') 
 ```
 
-![](X_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
+![](4_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-3-1.png)<!-- -->
 What do we think of this plot?
 
 It’s a bit messy and difficult to tell what the different lines are.
@@ -94,7 +95,7 @@ ggplot(data, aes(x = temp_C, y = depth_m)) +
   ylab('Depth (m)') 
 ```
 
-![](X_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
+![](4_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-4-1.png)<!-- -->
 This gives us one plot for each station, but what about plotting each
 cruise in a different color?
 
@@ -107,7 +108,7 @@ ggplot(data, aes(x = temp_C, y = depth_m, colour=factor(cruise))) +
   ylab('Depth (m)') 
 ```
 
-![](X_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+![](4_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 Finally, let’s give the legend title a better name:
 
 ``` r
@@ -120,7 +121,7 @@ ggplot(data, aes(x = temp_C, y = depth_m, colour=factor(cruise))) +
   labs(color="Cruise")
 ```
 
-![](X_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](4_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 \### Individual plots for each cruise
 
 Here, we can use faceting again. Let’s start with the final block of
@@ -136,7 +137,7 @@ ggplot(data, aes(x = temp_C, y = depth_m, colour=factor(station))) +
   labs(color="Station")
 ```
 
-![](X_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
+![](4_two_DaRTS_visualize_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 Which figure is the best? It depends what you are trying to show! The
 faceted plot with four plots (one per station) is really useful for
 comparing differences *at* each station *between* cruises, whereas the

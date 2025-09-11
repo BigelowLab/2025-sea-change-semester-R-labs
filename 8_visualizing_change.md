@@ -37,16 +37,12 @@ But, it’s worth pointing out here that all the methods we’ll be using
 can be used on any type of data - and we’ll see some examples as we go
 through the tutorial.
 
-# Initializing our R Session - CHECK WHAT WE ARE DOING HERE
+# Initializing our R Session
 
-Let’s start by setting up our R session. These are good steps to take at
-the start of any R session.
+Let’s start by setting up our R session - open a new markdown file and
+save it in our R lab folder.
 
-1.  Set the working directory/open your RProject:
-    `setwd("/home/Documents/course_1/rlab/Lab_5/")`
-2.  Open a new script
-3.  Save the new script e.g. `Lab05.R`
-4.  Import the libraries we’ll use today
+Import the libraries we’ll use today
 
 ``` r
 library(ggplot2)
@@ -75,20 +71,12 @@ library(lubridate)
     ## 
     ##     date, intersect, setdiff, union
 
-5.  Import our data
+Then finally, import our data. We are going to use the combined CSV
+file - so enter the appropriate path in the code below:
 
 ``` r
 DATA <- read.csv("data/DaRTS_combined_data.csv")
 ```
-
-``` r
-DATA <- DATA %>% mutate(Station = as.numeric(DATA$Station))
-```
-
-    ## Warning: There was 1 warning in `mutate()`.
-    ## ℹ In argument: `Station = as.numeric(DATA$Station)`.
-    ## Caused by warning:
-    ## ! NAs introduced by coercion
 
 # Contour and Bubble Plots
 
@@ -120,11 +108,9 @@ points for each culture and treatment.
 
 How do the variables in these examples compare?
 
-| Field Data | Lab Experiment |
-|:-----------|:---------------|
-| station    | treatment      |
-| date       | culture        |
-| depth      | time point     |
+- station is equivalent to treatment
+- date is equivalent to culture
+- depth is equivalent time point
 
 ## Data Manipulation
 
@@ -142,12 +128,50 @@ the data frame based on year and depth:
 chldata2016 <- DATA %>% filter(year == 2016, Depth == 1)
 ```
 
+## Visualizing data using a bubble plot
+
+We are going to plot a scatter plot, where the size of each point
+represents the chlorophyll fluorescence. In this case, our argument to
+the `labs()` function for the legend is going to be `size`.
+
+``` r
+ggplot(chldata2016,aes(x=Date,y=Station)) +
+  geom_point(aes(size=Fluorescence)) +
+  labs(size='surface chlorophyll fluorescence (mg m^-3)')
+```
+
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
+
 ## Visualizing data using a contour plot
 
-We can visualize this type of data with a contour plot (using
-`geom_contour_filled()`). We want to label the color bar, so in this
-case, our argument to the `labs()` function for the legend (color bar)
-is going to be `fill`.
+In the above case, we were dealing with continuous data (in space and
+time), so we could imagine a plot where we interpolate between data
+points (i.e., stretch the data from one measured point to its
+neighbouring points). This type of interpolated data can be visualized
+with a contour plot (or heatmap).
+
+To do a contour plot with ggplot, we’re going to use
+`geom_contour_filled()`. Note this function requires our x-axis and
+y-axis to be continuous data i.e., we need our stations to be numbers,
+rather than characters. In our data frame our stations are saved as
+characters, so let’s convert to numbers for this lesson.
+
+``` r
+DATA <- DATA %>% mutate(Station = as.numeric(DATA$Station))
+```
+
+    ## Warning: There was 1 warning in `mutate()`.
+    ## ℹ In argument: `Station = as.numeric(DATA$Station)`.
+    ## Caused by warning:
+    ## ! NAs introduced by coercion
+
+``` r
+chldata2016 <- DATA %>% filter(year == 2016, Depth == 1)
+```
+
+We want to label the color bar, so in this case, our argument to the
+`labs()` function for the legend (color bar) is going to be `fill`
+(i.e., connected to the `geom_contour_filled` function).
 
 ``` r
 ggplot(chldata2016,aes(x=Date,y=Station)) +
@@ -156,7 +180,7 @@ ggplot(chldata2016,aes(x=Date,y=Station)) +
   labs(fill='surface chlorophyll fluorescence (mg m^-3)')
 ```
 
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-7-1.png)<!-- -->
 
 We can reformat the x-axis dates if we wished - see details in the
 [Formatting Dates
@@ -188,7 +212,7 @@ ggplot(chldata2016,aes(x=Date,y=Station)) +
   scale_x_date(breaks=unique(chldata2016$Date))
 ```
 
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-8-1.png)<!-- -->
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
 Here, the dots (from `geom_point`) show where the measurements were
 made, and the contours filled in the gaps. This helps us to visualize
@@ -202,21 +226,8 @@ fill the gaps between the treatment and culture?
 No - the treatments and cultures are separate from each other. They are
 not connected in this temporal or spatial way. So while the *data
 manipulation* was the same for each data set, the *data visualization*
-isn’t.
-
-## Visualizing data using a bubble plot
-
-We are going to plot a scatter plot, where the size of each point
-represents the chlorophyll fluorescence. In this case, our argument to
-the `labs()` function for the legend is going to be `size`.
-
-``` r
-ggplot(chldata2016,aes(x=Date,y=Station)) +
-  geom_point(aes(size=Fluorescence)) +
-  labs(size='surface chlorophyll fluorescence (mg m^-3)')
-```
-
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+isn’t. For the lab experiment example, a bubble plot would be more
+appropriate.
 
 # Interpolating and visualizing data
 
@@ -255,7 +266,7 @@ ggplot(cruiseData,aes(x=Station,y=Depth)) +
     ## Warning: Removed 1 row containing non-finite outside the scale range
     ## (`stat_contour_filled()`).
 
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 This looks good, but what this plotting function doesn’t do is
 interpolate data between missing data points. We know we have data at
@@ -269,7 +280,7 @@ ggplot(cruiseData,aes(x=Station,y=Depth)) +
   scale_y_reverse()
 ```
 
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 Let’s go back to the lab experiment example: could it be plotted in this
 way?
@@ -434,7 +445,7 @@ ggplot(cruiseData,aes(x=latitude,y=Depth)) +
   scale_x_reverse() # flipping so station 1 is on the left
 ```
 
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
 
 What we end up with is this plot where we have gaps between each station
 measurement because our sampling stations are not equally spaced in
@@ -452,8 +463,6 @@ our different time points.
 We’re going to use a handy function from the `akima` package to do all
 the hard work for us. But first, we need to make sure we have no nans in
 our data.
-
-### **DID WE DO THIS (booleans and removing nans) ALREADY??**
 
 ``` r
 # removing the NaNs and Infs:
@@ -531,7 +540,7 @@ ggplot(CruiseDataInterp, aes(x=latitude, y=depth)) +
   scale_fill_distiller(palette="Greens",direction=1)
 ```
 
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
 
 We can include the sample locations and contour lines to make it clear
 where the interpolation is happening:
@@ -550,7 +559,7 @@ ggplot(CruiseDataInterp, aes(x=latitude, y=depth)) +
     ## Warning: Removed 610 rows containing non-finite outside the scale range
     ## (`stat_contour()`).
 
-![](D2_visualizing_change_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+![](8_visualizing_change_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
 *Note: In this case (the Damariscotta River) we interpolated below the
 measured depths. But those interpolations don’t make sense here because

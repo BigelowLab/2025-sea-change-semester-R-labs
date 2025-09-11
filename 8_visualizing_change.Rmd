@@ -34,27 +34,19 @@ And we'll provide you with some resources for how to recreate the above figure u
 
 But, it's worth pointing out here that all the methods we'll be using can be used on any type of data - and we'll see some examples as we go through the tutorial.
 
-# Initializing our R Session - CHECK WHAT WE ARE DOING HERE
+# Initializing our R Session 
 
-Let's start by setting up our R session. These are good steps to take at the start of any R session.
+Let's start by setting up our R session - open a new markdown file and save it in our R lab folder.
 
-1. Set the working directory/open your RProject:  `setwd("/home/Documents/course_1/rlab/Lab_5/")`
-2. Open a new script
-3. Save the new script e.g. `Lab05.R`
-4. Import the libraries we'll use today
+Import the libraries we'll use today
 ```{r}
 library(ggplot2)
 library(dplyr)
 library(lubridate)
 ```
-5. Import our data
+Then finally, import our data. We are going to use the combined CSV file - so enter the appropriate path in the code below:
 ```{r}
 DATA <- read.csv("data/DaRTS_combined_data.csv")
-```
-
-
-```{r}
-DATA <- DATA %>% mutate(Station = as.numeric(DATA$Station))
 ```
 
 # Contour and Bubble Plots
@@ -73,13 +65,9 @@ We are going to create a couple of different figures that show surface chlorophy
 
 How do the variables in these examples compare?
 
-```{r date_format_table, echo = FALSE, fig.align = 'center'}
-knitr::kable(readr::read_tsv("Field Data 	Lab Experiment
-station 	treatment
-date 	culture
-depth 	time point
-", show_col_types = FALSE))
-```
++ station is equivalent to treatment
++ date is equivalent to	culture 
++ depth is equivalent	time point 
 
 ## Data Manipulation
 
@@ -95,10 +83,28 @@ Our data frame contains data from 2012 - 2024, so we need to `filter` the data f
 chldata2016 <- DATA %>% filter(year == 2016, Depth == 1)
 ```
 
+## Visualizing data using a bubble plot
+
+We are going to plot a scatter plot, where the size of each point represents the chlorophyll fluorescence. In this case, our argument to the `labs()` function for the legend is going to be `size`.
+
+```{r, fig.height = 5, fig.width=8}
+ggplot(chldata2016,aes(x=Date,y=Station)) +
+  geom_point(aes(size=Fluorescence)) +
+  labs(size='surface chlorophyll fluorescence (mg m^-3)')
+```
 
 ## Visualizing data using a contour plot
 
-We can visualize this type of data with a contour plot (using `geom_contour_filled()`). We want to label the color bar, so in this case, our argument to the `labs()` function for the legend (color bar) is going to be `fill`.
+In the above case, we were dealing with continuous data (in space and time), so we could imagine a plot where we interpolate between data points (i.e., stretch the data from one measured point to its neighbouring points). This type of interpolated data can be visualized with a contour plot (or heatmap).
+
+To do a contour plot with ggplot, we're going to use `geom_contour_filled()`. Note this function requires our x-axis and y-axis to be continuous data i.e., we need our stations to be numbers, rather than characters. In our data frame our stations are saved as characters, so let's convert to numbers for this lesson.
+
+```{r}
+DATA <- DATA %>% mutate(Station = as.numeric(DATA$Station))
+chldata2016 <- DATA %>% filter(year == 2016, Depth == 1)
+```
+
+We want to label the color bar, so in this case, our argument to the `labs()` function for the legend (color bar) is going to be `fill` (i.e., connected to the `geom_contour_filled` function).
 
 ```{r, fig.height = 5, fig.width=8}
 ggplot(chldata2016,aes(x=Date,y=Station)) +
@@ -130,17 +136,9 @@ Here, the dots (from `geom_point`) show where the measurements were made, and th
 
 If we think about our lab experiment example, what our figure would show is treatment on the y-axis, culture on the x-axis, and cell counts as the contours. In that case - does it make sense to have the cell counts fill the gaps between the treatment and culture?  
 
-No - the treatments and cultures are separate from each other. They are not connected in this temporal or spatial way. So while the *data manipulation* was the same for each data set, the *data visualization* isn't.
+No - the treatments and cultures are separate from each other. They are not connected in this temporal or spatial way. So while the *data manipulation* was the same for each data set, the *data visualization* isn't. For the lab experiment example, a bubble plot would be more appropriate.
 
-## Visualizing data using a bubble plot
 
-We are going to plot a scatter plot, where the size of each point represents the chlorophyll fluorescence. In this case, our argument to the `labs()` function for the legend is going to be `size`.
-
-```{r, fig.height = 5, fig.width=8}
-ggplot(chldata2016,aes(x=Date,y=Station)) +
-  geom_point(aes(size=Fluorescence)) +
-  labs(size='surface chlorophyll fluorescence (mg m^-3)')
-```
 
 # Interpolating and visualizing data
 
@@ -290,8 +288,6 @@ What we end up with is this plot where we have gaps between each station measure
 We are going to do the bilinear interpolation on our data, which means we are going to estimate chlorophyll fluorescence values over regularly spaced latitude and depth values. This is something that's maybe more common when working with geospatial data. But in our lab experiment case, maybe we'd be interested in interpolating our cell counts between our different time points. 
 
 We're going to use a handy function from the `akima` package to do all the hard work for us. But first, we need to make sure we have no nans in our data. 
-
-### **DID WE DO THIS (booleans and removing nans) ALREADY??**
 
 ```{r}
 # removing the NaNs and Infs:

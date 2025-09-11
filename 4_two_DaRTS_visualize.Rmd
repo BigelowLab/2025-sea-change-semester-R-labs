@@ -3,6 +3,7 @@ title: "Visualizing DaRTS CTD data from two cruises"
 output: 
   html_notebook: default
   html_document: default
+  pdf_document: default
   github_document: default
 ---
 

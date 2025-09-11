@@ -3,9 +3,9 @@ title: "2 Intro to R Markdown"
 author: "Julia Brown + Catherine Mitchell"
 date: "2025-08-25"
 output: 
-  pdf_document: default
-  html_document: default
   html_notebook: default
+  html_document: default
+  pdf_document: default
   github_document: default
 ---
 
