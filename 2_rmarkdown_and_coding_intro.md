@@ -1,6 +1,6 @@
 2 Intro to R Markdown
 ================
-Julia Brown
+Julia Brown + Catherine Mitchell
 2025-08-25
 
 ## R Markdown
@@ -11,11 +11,7 @@ using R Markdown see <http://rmarkdown.rstudio.com>.
 
 When you click the **Knit** button a document will be generated that
 includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
-
-``` r
-depth <- 10
-```
+chunks within the document.
 
 ## Writing and running R
 
@@ -112,4 +108,7 @@ First you call the function `seq`
 Then, you put in the parameters, in this case, the first value is the
 starting number (‘0’ in this example), the second value is the ending
 number (‘100’ in this example) and the third value is the value by which
-to space the numbers in the sequence (‘10’ in this example’)
+to space the numbers in the sequence (‘10’ in this example’).
+
+In fact, objects in R can be a whole table (a data frame), with headers
+describing each column of data - more to come in the next notebook!

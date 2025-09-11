@@ -1,17 +1,36 @@
 ---
 title: "1 Setting up R"
-author: "Julia Brown"
+author: "Julia Brown + Catherine Mitchell"
 date: "2025-08-25"
 output: 
-  html_notebook: default
+  pdf_document: default
   github_document: default
   html_document: default
-  pdf_document: default
+  html_notebook: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+# Why R?
+
+Computational skills for research oceanography are important! R is just one of many programming languages that you could use - it is one of the most commonly used language in marine ecology / biology realm, but Python (or MATLAB) are more commonly used in physical oceanography.
+
+OK, but why are computational skills important?
+
+1. From a practical point of view, oceanographic data can be complex: you may be working with large volumes of data, data from different sources that you need to combine, different types of data (CTD vs discrete samples), or with models. It may not be possible to do what you want to do in Excel (or it could be really cumbersome and error prone).
+2. Helps with reproducible science i.e., enabling someone (maybe yourself!) to repeat your experiment and replicate your results - this includes data analysis! Reproducible science is important for scientific integrity, facilitates collaboration and helps support open science.
+
+And a couple of best practices as you dive deeper into this world:
+
+1. Documentation - document everything! Use a notebook (electronic or otherwise)
+2. Organization - think about this before you start and find something that works for you. 
+3. Automation - think about developing methods in small, reusable chunks e.g., to process data or make figures
+4. Dissemination - for our research to be truely reproducible, our full methods need to be shared, including code!
+
+Final thought on reproducibility and computational research skills: **think about how to make things easier on a colleague and future you. Future you is your closest collaborator, but past you does not respond to emails. You'd be surprised how quickly you forget something.**
+
 
 # R and RStudio
 
@@ -27,13 +46,12 @@ R and RStudio are separate downloads and installations. R is the underlying stat
 
 The following gives a great overview on the differences between R and RStudio, familiarizing yourself with RStudio and starting a session in RStudio:
 
-https://datacarpentry.org/R-ecology-lesson/00-before-we-start.html
+https://datacarpentry.github.io/R-ecology-lesson/introduction-r-rstudio.html
 
-Note: it's the start of an online tutorial, so it does mention a "code handout" that is relevant to that tutorial, but not this class.
 
 ## Setting up RStudio
 
-1. Create a folder where you are going to do all your lab work. Remember, organization is key! I recommend setting up a folder for all the labs, and then a sub-folder for each lab (e.g., ~/course1_labs/lab2/).
+1. Create a folder where you are going to do all your lab work. Remember, organization is key! I recommend setting up a folder for all these lessons (e.g., ~/course1_RLab/).
 1. Start RStudio.
 2. We need to set the working directory. This is where R will look for all your data files, scripts (more on those later) and save any of your work. There are a few ways to do this:
     + Go to Session -> Set Working Directory -> Choose Directory and browse to the folder you just created
@@ -43,10 +61,10 @@ Note: it's the start of an online tutorial, so it does mention a "code handout" 
 
 ### Installing packages
 
-The above instructions for installing R installs the **base** version of R. It has a bunch of default functions we can use. But there a lot of additional **packages** for R which contain even more functions for us to use. 
+The above instructions for installing R installs the **base** version of R. It has a bunch of default functions we can use. But there a lot of additional **packages** for R which contain even more functions for us to use. Let's install two we'll need for class.
 
 `install.packages("tidyverse")`  
-`install.packages("lubridate")` 
+`install.packages("akima")` 
 
 # Tips and Resources
 
@@ -62,10 +80,14 @@ A selection of beginner R courses from Data Carpentry and Software Carpentry:
 
 [R novice inflammation](http://swcarpentry.github.io/r-novice-inflammation/)
 
+R cheatsheets:
+
+[Cheatsheets for tidyverse packages + more](https://rstudio.github.io/cheatsheets/)
+
 
 # R Markdown
 
-You can create documents that have text, figures and R code all in the same document using R Markdown. These R Markdown files (or R Notebooks - more later) are really useful for reproducible science because you can put all the information into one document in a clear, presentable way. I do all my research using these - I think of them as lab books, I don't keep a pen and paper lab book anymore. And all the lab scripts I've written for this course were done in R Markdown.
+You can create documents that have text, figures and R code all in the same document using R Markdown. These R Markdown files (or R Notebooks - more later) are really useful for reproducible science because you can put all the information into one document in a clear, presentable way. We do all my research using these - we think of them as lab books, we don't keep a pen and paper lab book anymore. And all the lab scripts we've written for this course were done in R Markdown.
 
 ## What is Markdown?
 (adapted from [markdownguide.org](https://www.markdownguide.org/getting-started/))
