@@ -1,8 +1,11 @@
 Make DaRTS data R friendly
 ================
 
-In this lesson, we are going to consider DaRTS CTD data, and think about
-setting ourselves up for success at the start of a project.
+Yesterday, we started with a nice CSV file from one DaRTS cruise that we
+didn’t need to format and could just load directly into R. In practice,
+the CTD data David shares with you from the cruises will NOT be in that
+format. You’ll need to reformat it a bit before it can be loaded into R.
+The main purpose of this lesson is to make R friendly DaRTS data.
 
 We will learn:
 
@@ -74,7 +77,7 @@ project!
     This is your “README” tab, for when you come back to this file and
     want to remember where the data came from, and if any processing had
     been done to it.
-6.  Export data as a csv (details below)
+6.  Export data as a CSV (details below)
 
 ### Saving as a CSV
 
@@ -94,3 +97,43 @@ If you opened the file in Numbers:
     will be asked to name the folder all the CSV files will be saved
     in - pick something sensible!
 3.  Once saved, exit the numbers file.
+
+## But what about when we do our next cruise (and the one after that…)?
+
+1.  Open the R friendly Excel file we made above (it contains the README
+    tab)
+2.  Open the new cruise CTD Excel file from David
+3.  Copy and paste the new cruise data onto the bottom of the Cruise 1
+    data, noting data, cruise and station number as before.
+4.  Edit the README tab so it states what files / cruises this file now
+    contains.
+5.  Export data as a CSV.
+
+# Final Comments
+
+What do you think about that process? Was it foolproof?
+
+- We added a README to help us track everything back to the original
+  data.
+- We did a lot of copy and pasting: there’s room for error here!
+- We did some manual typing: there’s room for error here!
+
+Is there a better approach?
+
+We could have created our csv / data table directly in R, by reading all
+the different sheets, adding in columns for dates (taken from the file
+name), station, etc. This would be the most reproducible approach (and
+generally what I would recommend), but would have involved a lot of data
+wrangling skills that we aren’t familiar with.
+
+But - is there an even better approach?
+
+We could set ourselves up for success from the start: we could create
+our original spreadsheets in an already R-friendly way, so we can open
+and read them easily within R. Or we could even work directly with the
+raw data in R, and create a whole data processing pipeline or workflow
+that can be implemented on every CTD file.
+
+Think about how you want to save your data for your independent
+research - make it easy for yourself when you come to do your data
+analysis!
