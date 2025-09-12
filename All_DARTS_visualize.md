@@ -1449,7 +1449,7 @@ surfaceData %>% filter(year == 2016) %>%
     ## Warning in max(x): no non-missing arguments to max; returning -Inf
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-44-1.png)<!-- -->
-\## Assignment: Digging into temperature
+\### Assignment: Digging into temperature
 
 ### Lab 3: Assignment Plots
 
