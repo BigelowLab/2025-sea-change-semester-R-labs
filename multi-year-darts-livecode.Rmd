@@ -1,0 +1,150 @@
+---
+title: "multi-year DaRTS Data"
+author: "Julia Brown"
+date: "2025-09-12"
+output:
+  pdf_document: default
+  html_document: default
+  html_notebook: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#### Research Question:
+How does picoplankton concentraion change with temperature?
+
+
+
+```{r}
+library('tidyverse')
+
+library('ggplot2')
+library('tibble')
+library('dplyr')
+library('lubridate')
+```
+
+
+```{r}
+ctdData <- read.csv('data/DaRTS_CTD_data_2012-2024.csv')
+discreteData <- read.csv('data/DaRTS_discrete_data_2012-2024.csv')
+```
+
+
+```{r}
+head(ctdData)
+```
+
+
+```{r}
+head(discreteData)
+```
+
+```{r}
+ctdDates <- ctdData$Date
+class(ctdDates[1])
+```
+
+```{r}
+discreteDates <- discreteData$Date
+discreteDates[1]
+```
+
+#### Lubridate package to handle date values
+
+```{r}
+discreteDates <- lubridate::mdy(discreteData$Date)
+discreteDates[1]
+class(discreteDates[1])
+```
+
+#### Adding new columns to data frame with the "mutate" function
+
+```{r}
+ctdData <- mutate(ctdData, Date = lubridate::ymd(ctdData$Date))
+
+discreteData <- mutate(discreteData, Date = lubridate::mdy(discreteData$Date))
+
+ctdData <- mutate(ctdData, 
+                  year = year(Date), 
+                  month = month(Date), 
+                  day = day(Date))
+
+discreteData <- mutate(discreteData,
+                       year = year(Date),
+                       month = month(Date),
+                       day = day(Date))
+
+ctdData <- mutate(ctdData, doy = yday(Date))
+discreteData <- mutate(discreteData, doy = yday(Date))
+
+```
+
+
+### Depths
+
+```{r}
+ctdData$Depth_m[1:10]
+
+discreteData$Depth[1:10]
+```
+
+```{r}
+ctdData <- mutate(ctdData, Depth = round(ctdData$Depth_m))
+
+head(ctdData)
+
+```
+
+```{r}
+ctdDataGrouped <- group_by(ctdData, Date, Station, Depth)
+
+ctdDataBinned <- summarize_all(ctdDataGrouped, 
+                               mean, na.rm = TRUE)
+
+```
+
+```{r}
+discreteData$Station <- as.character(discreteData$Station)
+discreteData$Depth <- as.numeric(discreteData$Depth)
+```
+
+### Merging DataFrames
+
+```{r}
+combinedData <- full_join(ctdDataBinned, discreteData)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

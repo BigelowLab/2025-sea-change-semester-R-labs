@@ -429,13 +429,13 @@ ctdDataBinned <- ctdData %>%
   summarize_all(mean)
 ```
 
-    ## Warning: There were 336 warnings in `summarise()`.
+    ## Warning: There were 224 warnings in `summarise()`.
     ## The first warning was:
-    ## ℹ In argument: `Station = (function (x, ...) ...`.
+    ## ℹ In argument: `pH = (function (x, ...) ...`.
     ## ℹ In group 1: `Depth = 0`.
     ## Caused by warning in `mean.default()`:
     ## ! argument is not numeric or logical: returning NA
-    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 335 remaining warnings.
+    ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 223 remaining warnings.
 
 Let’s take a look at our final dataframe, we’ll open it from the
 Environment Pane. On first glance, this looks like it’s done what we
@@ -459,7 +459,7 @@ ctdDataBinned <- ctdData %>%
     ## Warning: There were 31666 warnings in `summarise()`.
     ## The first warning was:
     ## ℹ In argument: `pH = (function (x, ...) ...`.
-    ## ℹ In group 1: `Date = 2012-09-11`, `Station = "1"`, `Depth = 1`.
+    ## ℹ In group 1: `Date = 2012-09-11`, `Station = 1`, `Depth = 1`.
     ## Caused by warning in `mean.default()`:
     ## ! argument is not numeric or logical: returning NA
     ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 31665 remaining warnings.
@@ -1131,6 +1131,7 @@ include all the observations, we need to do a full join:
 
 ``` r
 discreteData$Station <- as.character(discreteData$Station)
+ctdDataBinned$Station <- as.character(ctdDataBinned$Station)
 discreteData$Depth <- as.numeric(discreteData$Depth)
 ```
 
@@ -1174,22 +1175,17 @@ combinedData |> colnames()
     ## [11] "TurbidityNTU"                "BeamC"                      
     ## [13] "O2Conc"                      "O2Saturation"               
     ## [15] "pH"                          "X"                          
-    ## [17] "X.1"                         "X.2"                        
-    ## [19] "X.3"                         "X.4"                        
-    ## [21] "X.5"                         "X.6"                        
-    ## [23] "X.7"                         "X.8"                        
-    ## [25] "X.9"                         "X.10"                       
-    ## [27] "year"                        "month"                      
-    ## [29] "day"                         "doy"                        
-    ## [31] "Cruise"                      "Lat"                        
-    ## [33] "Long"                        "Alk"                        
-    ## [35] "SiO4_uM"                     "NO3.2_uM"                   
-    ## [37] "PO4_uM"                      "NH4_uM"                     
-    ## [39] "Pico_Plankton_cells_per_ml"  "Bacteria_cells_per_ml"      
-    ## [41] "Virus_per_ml"                "Total_Chl_ug_per_l"         
-    ## [43] "Chl_less_than_20um_ug_per_l" "Chl_less_than_3um_ug_per_l" 
-    ## [45] "Flowcam_Biomass"             "cyanobacteria_per_ml"       
-    ## [47] "picoeukaryotes_per_ml"       "noeukaryotes_per_ml"
+    ## [17] "year"                        "month"                      
+    ## [19] "day"                         "doy"                        
+    ## [21] "Cruise"                      "Lat"                        
+    ## [23] "Long"                        "Alk"                        
+    ## [25] "SiO4_uM"                     "NO3.2_uM"                   
+    ## [27] "PO4_uM"                      "NH4_uM"                     
+    ## [29] "Pico_Plankton_cells_per_ml"  "Bacteria_cells_per_ml"      
+    ## [31] "Virus_per_ml"                "Total_Chl_ug_per_l"         
+    ## [33] "Chl_less_than_20um_ug_per_l" "Chl_less_than_3um_ug_per_l" 
+    ## [35] "Flowcam_Biomass"             "cyanobacteria_per_ml"       
+    ## [37] "picoeukaryotes_per_ml"       "noeukaryotes_per_ml"
 
 ``` r
 ggplot(data = combinedData,
@@ -1197,7 +1193,7 @@ ggplot(data = combinedData,
   geom_point()
 ```
 
-    ## Warning: Removed 15859 rows containing missing values or values outside the scale range
+    ## Warning: Removed 15750 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-31-1.png)<!-- -->
@@ -1214,7 +1210,7 @@ ggplot(data = combinedData,
   scale_x_log10()
 ```
 
-    ## Warning: Removed 15859 rows containing missing values or values outside the scale range
+    ## Warning: Removed 15750 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-32-1.png)<!-- -->
@@ -1252,7 +1248,7 @@ ggplot(surfaceData, aes(x=Date, y= Pico_Plankton_cells_per_ml)) +
   geom_point()
 ```
 
-    ## Warning: Removed 131 rows containing missing values or values outside the scale range
+    ## Warning: Removed 108 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-34-1.png)<!-- -->
@@ -1272,7 +1268,7 @@ ggplot(surfaceData,
   geom_point()
 ```
 
-    ## Warning: Removed 131 rows containing missing values or values outside the scale range
+    ## Warning: Removed 108 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-35-1.png)<!-- -->
@@ -1288,7 +1284,7 @@ ggplot(surfaceData,
   geom_boxplot()
 ```
 
-    ## Warning: Removed 131 rows containing non-finite outside the scale range
+    ## Warning: Removed 108 rows containing non-finite outside the scale range
     ## (`stat_boxplot()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-36-1.png)<!-- -->
@@ -1313,7 +1309,7 @@ ggplot(surfaceData, aes(x=doy, y= Pico_Plankton_cells_per_ml)) +
   geom_point()
 ```
 
-    ## Warning: Removed 131 rows containing missing values or values outside the scale range
+    ## Warning: Removed 108 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-38-1.png)<!-- -->
@@ -1326,7 +1322,7 @@ ggplot(surfaceData, aes(x=doy, y= Pico_Plankton_cells_per_ml)) +
   xlim(245,325)
 ```
 
-    ## Warning: Removed 174 rows containing missing values or values outside the scale range
+    ## Warning: Removed 151 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-39-1.png)<!-- -->
@@ -1353,7 +1349,7 @@ surfaceData %>% group_by(doy) %>%
     ## ! argument is not numeric or logical: returning NA
     ## ℹ Run `dplyr::last_dplyr_warnings()` to see the 367 remaining warnings.
 
-    ## Warning: Removed 62 rows containing missing values or values outside the scale range
+    ## Warning: Removed 58 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-40-1.png)<!-- -->
@@ -1370,7 +1366,7 @@ surfaceData %>% filter(Station == 1) %>%
   xlim(245,325)
 ```
 
-    ## Warning: Removed 43 rows containing missing values or values outside the scale range
+    ## Warning: Removed 49 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-41-1.png)<!-- -->
@@ -1386,10 +1382,10 @@ surfaceData %>% filter(Station == 1) %>%
   xlim(245,325)
 ```
 
-    ## Warning: Removed 43 rows containing missing values or values outside the scale range
+    ## Warning: Removed 49 rows containing missing values or values outside the scale range
     ## (`geom_point()`).
 
-    ## Warning: Removed 32 rows containing missing values or values outside the scale range
+    ## Warning: Removed 35 rows containing missing values or values outside the scale range
     ## (`geom_line()`).
 
 ![](All_DARTS_visualize_files/figure-gfm/unnamed-chunk-42-1.png)<!-- -->

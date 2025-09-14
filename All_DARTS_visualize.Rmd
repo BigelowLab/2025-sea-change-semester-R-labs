@@ -1,9 +1,9 @@
 ---
 title: "Working with multi-year DaRTS Data"
 output: 
-  github_document: default
-  html_notebook: default
   pdf_document: default
+  html_notebook: default
+  github_document: default
 always_allow_html: true
 ---
 
@@ -364,11 +364,15 @@ Ultimately, we want to look at picoplankton and temperature data, so we're only 
 
 ```{r}
 discreteData$Station <- as.character(discreteData$Station)
+ctdDataBinned$Station <- as.character(ctdDataBinned$Station)
 discreteData$Depth <- as.numeric(discreteData$Depth)
 
 combinedData <- ctdDataBinned %>%
   full_join(discreteData)
 ```
+
+
+
 **Final step is to save our new dataframe as a CSV file.** Then you can use this dataset to answer your own questions without having to redo the whole lab.
 
 ```{r}
