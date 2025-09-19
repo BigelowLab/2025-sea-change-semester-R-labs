@@ -27,7 +27,7 @@ What we’re going to work towards here is plotting oceanographic data in
 similar way to [Ocean Data View](https://odv.awi.de/). By the end of the
 tutorial, we’ll have created:
 
-<img src=figures/final_plot.png width=70%>
+![](figures/final_plot.png)
 
 And we’ll provide you with some resources for how to recreate the above
 figure under different requirements e.g. for a different variable, or
@@ -308,10 +308,7 @@ Here, the important words are **if**, **then** and **else**. Together,
 these make up something called an **if-else** statement. Sometimes it
 easier to visualize these as flow charts:
 
-<figure>
-<img src="figures/bread-ifelse.jpg" alt="image1" />
-<figcaption aria-hidden="true">image1</figcaption>
-</figure>
+![](figures/bread-ifelse.jpg)
 
 If we didn’t have the `else` statement, then, the default is to do
 nothing if the first condition is false.
@@ -339,10 +336,7 @@ frame? We can think of this process as:
 
 That’s a lot of statements. Let’s try and visualize this:
 
-<figure>
-<img src="figures/station-ifelse-start.jpg" alt="image1" />
-<figcaption aria-hidden="true">image1</figcaption>
-</figure>
+![](figures/station-ifelse-start.jpg)
 
 What do we do if our test for station 1 is false (i.e. if we are at
 station 2, 3 or 4)? We could test if it is station 2. Then, if it is,
@@ -356,9 +350,9 @@ latitude to Not-A-Number (NaN).
 
 Let’s first look at this visually:
 
-![image1](figures/station-ifelse.jpg) How do we combine all these
-statements into some R code? We can use the `ifelse` function. Recall it
-has the form:
+<img src="figures/station-ifelse.jpg" data-out.width="50%" /> How do we
+combine all these statements into some R code? We can use the `ifelse`
+function. Recall it has the form:
 
     ifelse(condition, code if true, code if false)
 
@@ -377,35 +371,23 @@ And keep doing this for all the stations:
 Let’s just split this up to see what’s going on more clearly. We’ll
 start with the last `ifelse`:
 
-<figure>
-<img src="figures/4th-ifelse-rev.png" alt="image1" />
-<figcaption aria-hidden="true">image1</figcaption>
-</figure>
+![](figures/4th-ifelse-rev.png)
 
 In the above image, the part in the solid grey box is the
 `code if false` part for the last `ifelse` statement. For the 3rd
 `ifelse`:
 
-<figure>
-<img src="figures/3rd-ifelse-rev.png" alt="image1" />
-<figcaption aria-hidden="true">image1</figcaption>
-</figure>
+![](figures/3rd-ifelse-rev.png)
 
 The part in the dashed green box is the `code if false` part for the 3rd
 `ifelse` statement. For the 2nd `ifelse`:
 
-<figure>
-<img src="figures/2nd-ifelse-rev.png" alt="image1" />
-<figcaption aria-hidden="true">image1</figcaption>
-</figure>
+![](figures/2nd-ifelse-rev.png)
 
 The part in the dotted orange box is the `code if false` part for the
 2nd `ifelse` statement. For the 1st `ifelse`:
 
-<figure>
-<img src="figures/1st-ifelse-rev.png" alt="image1" />
-<figcaption aria-hidden="true">image1</figcaption>
-</figure>
+![](figures/1st-ifelse-rev.png)
 
 The part in the solid blue box is the `code if false` part for the 1st
 `ifelse`.
@@ -493,10 +475,7 @@ What does `interpReference` look like? It is a list with 3 items:
 
 Here’s an example for a smaller matrix:
 
-<figure>
-<img src="figures/z-matrix.jpg" alt="image1" />
-<figcaption aria-hidden="true">image1</figcaption>
-</figure>
+![](figures/z-matrix.jpg)
 
 What we now need to do is get our data into a data frame format for
 `ggplot`. One way to do this is use the `expand.grid` function to create

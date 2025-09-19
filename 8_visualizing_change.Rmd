@@ -2,8 +2,8 @@
 title: 'Visualizing change: Plotting relationships between multiple variables'
 output:
   pdf_document: default
-  html_notebook: default
   github_document: default
+  html_notebook: default
   html_document: default
 always_allow_html: true
 ---
@@ -28,7 +28,7 @@ In our initial exploration of the data, we've looked at how to plot some variabl
 
 What we're going to work towards here is plotting oceanographic data in similar way to [Ocean Data View](https://odv.awi.de/). By the end of the tutorial, we'll have created:
 
-<img src=figures/final_plot.png width=70%>
+![](figures/final_plot.png)
 
 And we'll provide you with some resources for how to recreate the above figure under different requirements e.g. for a different variable, or different cruise.
 
@@ -187,7 +187,7 @@ A conditional statement is one that tells you to do something based on a conditi
 
 Here, the important words are **if**, **then** and **else**. Together, these make up something called an **if-else** statement. Sometimes it easier to visualize these as flow charts:
 
-![image1](figures/bread-ifelse.jpg)
+![](figures/bread-ifelse.jpg)
 
 If we didn't have the `else` statement, then, the default is to do nothing if the first condition is false. 
 
@@ -216,13 +216,13 @@ How can we use this idea for including the latitudes into our data frame? We can
 
 That's a lot of statements. Let's try and visualize this:
 
-![image1](figures/station-ifelse-start.jpg)
+![](figures/station-ifelse-start.jpg)
 
 What do we do if our test for station 1 is false (i.e. if we are at station 2, 3 or 4)? We could test if it is station 2. Then, if it is, assign the station 2 latitude value, else test if it is station 3. Then, if it is station 3, we could assign the station 3 latitude value, else test if it is station 4. Then, if it is station 4, we could assign the station 4 latitude value. What do we do if the final test (i.e. station 4) is false? That means it isn't ANY of the stations, so there's probably an error somewhere in our dataset, and we should set that latitude to Not-A-Number (NaN). 
 
 Let's first look at this visually:
 
-![image1](figures/station-ifelse.jpg)
+![](figures/station-ifelse.jpg){out.width=50%}
 How do we combine all these statements into some R code? We can use the `ifelse` function. Recall it has the form:
 
 ``` 
@@ -245,20 +245,20 @@ ifelse(station4test, latitude = value4,NaN))))
 
 Let's just split this up to see what's going on more clearly. We'll start with the last `ifelse`:
 
-![image1](figures/4th-ifelse-rev.png)
+![](figures/4th-ifelse-rev.png)
 
 In the above image, the part in the solid grey box is the `code if false` part for the last `ifelse` statement. For the 3rd `ifelse`:
 
-![image1](figures/3rd-ifelse-rev.png) 
+![](figures/3rd-ifelse-rev.png) 
 
 The part in the dashed green box is the `code if false` part for the 3rd `ifelse` statement. For the 2nd `ifelse`:
 
-![image1](figures/2nd-ifelse-rev.png)
+![](figures/2nd-ifelse-rev.png)
 
 
 The part in the dotted orange box is the `code if false` part for the 2nd `ifelse` statement. For the 1st `ifelse`:
 
-![image1](figures/1st-ifelse-rev.png)
+![](figures/1st-ifelse-rev.png)
 
 
 The part in the solid blue box is the `code if false` part for the 1st `ifelse`.
@@ -320,7 +320,7 @@ What does `interpReference` look like? It is a list with 3 items:
 
 Here's an example for a smaller matrix:
 
-![image1](figures/z-matrix.jpg)
+![](figures/z-matrix.jpg)
 
 What we now need to do is get our data into a data frame format for `ggplot`. One way to do this is use the `expand.grid` function to create a data frame from all combinations of the latitude and depth vectors. Then flatten the interpolated data matrix into a vector and add it as a column in the data frame.
 
